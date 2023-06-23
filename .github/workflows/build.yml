@@ -34,4 +34,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=prathamesh-checkr
+        run: mvn -B verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io  -Dsonar.organization=prathamesh-sukale -Dsonar.login=9f3c51fe98ff5aedeb4116e22163cbcc7f342ea8 -Dsonar.projectKey=prathamesh-checkr
