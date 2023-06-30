@@ -84,6 +84,7 @@ class CandidateControllerTest {
 
 		GetAllCandidatesResp expectedResponse = new GetAllCandidatesResp();
 		expectedResponse.setMCandidates(mCandidates);
+		expectedResponse.setApiResult(ApiResult.ok());
 
 		when(iCandidateService.getAll(request)).thenReturn(expectedResponse);
 

@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 public class OReportCourtSearch implements IReportCourtSearch {
 
-    private TReportCourtSearch tbl;
+    private TReportCourtSearch tReportCourtSearch;
 
     private OReportCourtSearch(TReportCourtSearch tbl){
-        this.tbl = tbl;
+        this.tReportCourtSearch = tbl;
     }
 
     public static OReportCourtSearch create(TReportCourtSearch tbl){
@@ -20,27 +20,27 @@ public class OReportCourtSearch implements IReportCourtSearch {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tReportCourtSearch.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tReportCourtSearch.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tReportCourtSearch.getJStatus();
     }
 
 
     @Override
     public ICourtSearch getICourtSearch() {
-        return  OCourtSearch.create(tbl.getTCourtSearch());
+        return  OCourtSearch.create(tReportCourtSearch.getTCourtSearch());
     }
 
     @Override
     public int getJCourtSearchStatus() {
-        return tbl.getJCourtSearchStatus();
+        return tReportCourtSearch.getJCourtSearchStatus();
     }
 }

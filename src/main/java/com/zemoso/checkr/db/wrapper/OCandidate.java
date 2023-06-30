@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 public class OCandidate implements ICandidate {
 
-    private TCandidate tbl;
+    private TCandidate tCandidate;
 
     private OCandidate(TCandidate tbl){
-        this.tbl = tbl;
+        this.tCandidate = tbl;
     }
 
     public static OCandidate create(TCandidate tbl){
@@ -20,51 +20,51 @@ public class OCandidate implements ICandidate {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tCandidate.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tCandidate.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tCandidate.getJStatus();
     }
 
     @Override
     public String getSEmail() {
-        return tbl.getSEmail();
+        return tCandidate.getSEmail();
     }
 
     @Override
     public String getSFirstName() {
-        return tbl.getSFirstName();
+        return tCandidate.getSFirstName();
     }
 
     @Override
     public String getSLastName() {
-        return tbl.getSLastName();
+        return tCandidate.getSLastName();
     }
 
     @Override
     public LocalDate getDtDob() {
-        return tbl.getDtDob();
+        return tCandidate.getDtDob();
     }
 
     @Override
     public String getSLocation() {
-        return tbl.getSLocation();
+        return tCandidate.getSLocation();
     }
 
     @Override
     public int getJReportStatus() {
-        return tbl.getJReportStatus();
+        return tCandidate.getJReportStatus();
     }
 
     @Override
     public int getJAdjudicationStatus() {
-        return tbl.getJAdjudicationStatus();
+        return tCandidate.getJAdjudicationStatus();
     }
 }

@@ -51,6 +51,7 @@ public class CandidateService extends ApplicationService implements ICandidateSe
             }
 
             resp.setMCandidates(iCandidates.stream().map(e-> new CCandidate(e).createModel()).collect(Collectors.toList()));
+            resp.setApiResult(ApiResult.ok());
         }
 
         return  resp;

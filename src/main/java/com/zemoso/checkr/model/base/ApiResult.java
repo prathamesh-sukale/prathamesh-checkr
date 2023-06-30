@@ -46,7 +46,7 @@ public class ApiResult {
     }
 
     public static ApiResult ok(){
-        return  new ApiResult(0,"success");
+        return new ApiResult(0,"success");
     }
 
     public static ApiResult failed(String sMessage){

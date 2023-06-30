@@ -28,6 +28,7 @@ public class CourtSearchService extends ApplicationService implements ICourtSear
         GetAllCourtSearchesResp resp = new GetAllCourtSearchesResp();
         List<MCourtSearch> mCourtSearches = iDataStore.getCourtSearchRepository().getAll().stream().map(e-> new CCourtSearch(e).createModel()).collect(Collectors.toList());
         resp.setMCourtSearches(mCourtSearches);
+        resp.setApiResult(ApiResult.ok());
         return  resp;
     }
 

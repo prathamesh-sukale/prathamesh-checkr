@@ -74,46 +74,7 @@ public class ReportRepository extends ApplicationRepository {
             tReport.setJStatus(ERowStatus.ACTIVE.getJValue());
             tReport.setTPreAdverseActions(new ArrayList<>());
 
-            if(!cPreAdverseActions.isEmpty() && !cPreAdverseCharges.isEmpty()){
-                for(CPreAdverseAction cPreAdverseAction : cPreAdverseActions){
-                    TPreAdverseAction tPreAdverseAction = new TPreAdverseAction();
-
-                    tPreAdverseAction.setDtAction(cPreAdverseAction.getDtAction());
-                    tPreAdverseAction.setJDays(cPreAdverseAction.getJDays());
-                    tPreAdverseAction.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
-                    tPreAdverseAction.setJStatus(ERowStatus.ACTIVE.getJValue());
-                    tPreAdverseAction.setTPreAdverseCharges(new ArrayList<>());
-
-                    for(CPreAdverseCharge cPreAdverseCharge : cPreAdverseCharges){
-                        TPreAdverseCharge tPreAdverseCharge = new TPreAdverseCharge();
-
-                        TCharge tCharge = iChargeRepository.findById(cPreAdverseCharge.getICharge().getJId()).orElse(null);
-
-                        tPreAdverseCharge.setTCharge(tCharge);
-                        tPreAdverseCharge.setJChargeStatus(ERowStatus.ACTIVE.getJValue());
-                        tPreAdverseCharge.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
-                        tPreAdverseCharge.setJStatus(ERowStatus.ACTIVE.getJValue());
-
-                        tPreAdverseAction.getTPreAdverseCharges().add(tPreAdverseCharge);
-                    }
-
-                    tReport.getTPreAdverseActions().add(tPreAdverseAction);
-                }
-                tCandidate.setJAdjudicationStatus(EAdjudicationStatus.ADVERSE_ACTION.getJValue());
-            }
-
-            List<TReportCourtSearch> tReportCourtSearches = getSampleCourtSearches();
-            if(!tReportCourtSearches.isEmpty()){
-                tReport.setTReportCourtSearches(tReportCourtSearches);
-
-                if(tReportCourtSearches.stream().anyMatch(obj-> obj.getJCourtSearchStatus()==ECourtSearchStatus.CONSIDER.getJValue())){
-                    tCandidate.setJReportStatus(EReportStatus.CONSIDER.getJValue());
-                }else{
-                    tCandidate.setJReportStatus(EReportStatus.CLEAR.getJValue());
-                }
-            }
-
-            tReport.setTCandidate(tCandidate);
+            tReport = handleActions(tCandidate,tReport,cPreAdverseActions,cPreAdverseCharges);
 
             tReport = iReportRepository.save(tReport);
 
@@ -139,46 +100,7 @@ public class ReportRepository extends ApplicationRepository {
                 return null;
             }
 
-            if(!cPreAdverseActions.isEmpty() && !cPreAdverseCharges.isEmpty()){
-                for(CPreAdverseAction cPreAdverseAction : cPreAdverseActions){
-                    TPreAdverseAction tPreAdverseAction = new TPreAdverseAction();
-
-                    tPreAdverseAction.setDtAction(cPreAdverseAction.getDtAction());
-                    tPreAdverseAction.setJDays(cPreAdverseAction.getJDays());
-                    tPreAdverseAction.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
-                    tPreAdverseAction.setJStatus(ERowStatus.ACTIVE.getJValue());
-                    tPreAdverseAction.setTPreAdverseCharges(new ArrayList<>());
-
-                    for(CPreAdverseCharge cPreAdverseCharge : cPreAdverseCharges){
-                        TPreAdverseCharge tPreAdverseCharge = new TPreAdverseCharge();
-
-                        TCharge tCharge = iChargeRepository.findById(cPreAdverseCharge.getICharge().getJId()).orElse(null);
-
-                        tPreAdverseCharge.setTCharge(tCharge);
-                        tPreAdverseCharge.setJChargeStatus(ERowStatus.ACTIVE.getJValue());
-                        tPreAdverseCharge.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
-                        tPreAdverseCharge.setJStatus(ERowStatus.ACTIVE.getJValue());
-
-                        tPreAdverseAction.getTPreAdverseCharges().add(tPreAdverseCharge);
-                    }
-
-                    tReport.getTPreAdverseActions().add(tPreAdverseAction);
-                }
-                tCandidate.setJAdjudicationStatus(EAdjudicationStatus.ADVERSE_ACTION.getJValue());
-            }
-
-            List<TReportCourtSearch> tReportCourtSearches = getSampleCourtSearches();
-            if(!tReportCourtSearches.isEmpty()){
-                tReport.setTReportCourtSearches(tReportCourtSearches);
-
-                if(tReportCourtSearches.stream().anyMatch(obj-> obj.getJCourtSearchStatus()==ECourtSearchStatus.CONSIDER.getJValue())){
-                    tCandidate.setJReportStatus(EReportStatus.CONSIDER.getJValue());
-                }else{
-                    tCandidate.setJReportStatus(EReportStatus.CLEAR.getJValue());
-                }
-            }
-
-            tReport.setTCandidate(tCandidate);
+            tReport = handleActions(tCandidate,tReport,cPreAdverseActions,cPreAdverseCharges);
 
             tReport = iReportRepository.save(tReport);
 
@@ -249,6 +171,51 @@ public class ReportRepository extends ApplicationRepository {
 
         return searches;
 
+    }
+
+    private TReport handleActions(TCandidate tCandidate,TReport tReport,List<CPreAdverseAction> cPreAdverseActions, List<CPreAdverseCharge> cPreAdverseCharges){
+        if(!cPreAdverseActions.isEmpty() && !cPreAdverseCharges.isEmpty()){
+            for(CPreAdverseAction cPreAdverseAction : cPreAdverseActions){
+                TPreAdverseAction tPreAdverseAction = new TPreAdverseAction();
+
+                tPreAdverseAction.setDtAction(cPreAdverseAction.getDtAction());
+                tPreAdverseAction.setJDays(cPreAdverseAction.getJDays());
+                tPreAdverseAction.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
+                tPreAdverseAction.setJStatus(ERowStatus.ACTIVE.getJValue());
+                tPreAdverseAction.setTPreAdverseCharges(new ArrayList<>());
+
+                for(CPreAdverseCharge cPreAdverseCharge : cPreAdverseCharges){
+                    TPreAdverseCharge tPreAdverseCharge = new TPreAdverseCharge();
+
+                    TCharge tCharge = iChargeRepository.findById(cPreAdverseCharge.getICharge().getJId()).orElse(null);
+
+                    tPreAdverseCharge.setTCharge(tCharge);
+                    tPreAdverseCharge.setJChargeStatus(ERowStatus.ACTIVE.getJValue());
+                    tPreAdverseCharge.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
+                    tPreAdverseCharge.setJStatus(ERowStatus.ACTIVE.getJValue());
+
+                    tPreAdverseAction.getTPreAdverseCharges().add(tPreAdverseCharge);
+                }
+
+                tReport.getTPreAdverseActions().add(tPreAdverseAction);
+            }
+            tCandidate.setJAdjudicationStatus(EAdjudicationStatus.ADVERSE_ACTION.getJValue());
+        }
+
+        List<TReportCourtSearch> tReportCourtSearches = getSampleCourtSearches();
+        if(!tReportCourtSearches.isEmpty()){
+            tReport.setTReportCourtSearches(tReportCourtSearches);
+
+            if(tReportCourtSearches.stream().anyMatch(obj-> obj.getJCourtSearchStatus()==ECourtSearchStatus.CONSIDER.getJValue())){
+                tCandidate.setJReportStatus(EReportStatus.CONSIDER.getJValue());
+            }else{
+                tCandidate.setJReportStatus(EReportStatus.CLEAR.getJValue());
+            }
+        }
+
+        tReport.setTCandidate(tCandidate);
+
+        return tReport;
     }
 
 }

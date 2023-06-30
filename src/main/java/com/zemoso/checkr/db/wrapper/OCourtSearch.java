@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 
 public class OCourtSearch implements ICourtSearch {
 
-    private TCourtSearch tbl;
+    private TCourtSearch tCourtSearch;
 
     private OCourtSearch(TCourtSearch tbl){
-        this.tbl = tbl;
+        this.tCourtSearch = tbl;
     }
 
     public static OCourtSearch create(TCourtSearch tbl){
@@ -19,21 +19,21 @@ public class OCourtSearch implements ICourtSearch {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tCourtSearch.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tCourtSearch.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tCourtSearch.getJStatus();
     }
 
     @Override
     public String getSName() {
-        return tbl.getSName();
+        return tCourtSearch.getSName();
     }
 }

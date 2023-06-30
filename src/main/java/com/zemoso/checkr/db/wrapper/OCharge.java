@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 
 public class OCharge implements ICharge {
 
-    private TCharge tbl;
+    private TCharge tCharge;
 
     private OCharge(TCharge tbl){
-        this.tbl = tbl;
+        this.tCharge = tbl;
     }
 
     public static OCharge create(TCharge tbl){
@@ -19,21 +19,21 @@ public class OCharge implements ICharge {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tCharge.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tCharge.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tCharge.getJStatus();
     }
 
     @Override
     public String getSName() {
-        return tbl.getSName();
+        return tCharge.getSName();
     }
 }

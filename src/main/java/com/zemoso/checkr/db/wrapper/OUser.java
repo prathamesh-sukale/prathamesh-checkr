@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class OUser implements IUser {
 
-    private TUser tbl;
+    private TUser tUser;
 
     private OUser(TUser tbl){
-        this.tbl = tbl;
+        this.tUser = tbl;
     }
 
     public static OUser create(TUser tbl){
@@ -22,36 +22,36 @@ public class OUser implements IUser {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tUser.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tUser.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tUser.getJStatus();
     }
 
     @Override
     public String getSEmail() {
-        return tbl.getSEmail();
+        return tUser.getSEmail();
     }
 
     @Override
     public String getSPassword() {
-        return "***";
+        return tUser.getSPassword();
     }
 
     @Override
     public int getJRole() {
-        return tbl.getJRole();
+        return tUser.getJRole();
     }
 
     @Override
     public List<ICandidate> getICandidates() {
-        return tbl.getTCandidates().stream().map(OCandidate::create).collect(Collectors.toList());
+        return tUser.getTCandidates().stream().map(OCandidate::create).collect(Collectors.toList());
     }
 }

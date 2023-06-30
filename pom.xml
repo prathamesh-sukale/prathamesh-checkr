@@ -18,14 +18,18 @@
 		<sonar.organization>prathamesh-sukale</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.coverage.exclusions>
-			com/zemoso/checkr/app/**/*,
-			com/zemoso/checkr/common/**/*,
-			com/zemoso/checkr/core/**/*,
-			com/zemoso/checkr/db/**/*,
-			com/zemoso/checkr/dto/**/*,
-			com/zemoso/checkr/exception/**/*,
-			com/zemoso/checkr/model/**/*
+			**/com/zemoso/checkr/app/**/*,
+			**/com/zemoso/checkr/common/**/*,
+			**/com/zemoso/checkr/core/**/*,
+			**/com/zemoso/checkr/db/**/*,
+			**/com/zemoso/checkr/dto/**/*,
+			**/com/zemoso/checkr/exception/**/*,
+			**/com/zemoso/checkr/model/**/*,
+			/src/test/*
 		</sonar.coverage.exclusions>
+		<sonar.coverage.jacoco.xmlReportPaths>
+		../prathamesh-checkr/target/site/jacoco/jacoco.xml
+	</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<dependencies>

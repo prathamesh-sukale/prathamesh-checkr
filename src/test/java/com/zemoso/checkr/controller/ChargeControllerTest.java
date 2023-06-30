@@ -65,6 +65,7 @@ class ChargeControllerTest {
 
 		GetAllChargesResp expectedResponse = new GetAllChargesResp();
 		expectedResponse.setMCharges(mCharges);
+		expectedResponse.setApiResult(ApiResult.ok());
 
 		when(iChargeService.getAll()).thenReturn(expectedResponse);
 

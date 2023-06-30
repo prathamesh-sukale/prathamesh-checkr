@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class OReport implements IReport {
 
-    private TReport tbl;
+    private TReport tReport;
 
     private OReport(TReport tbl){
-        this.tbl = tbl;
+        this.tReport = tbl;
     }
 
     public static OReport create(TReport tbl){
@@ -24,31 +24,31 @@ public class OReport implements IReport {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tReport.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tReport.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tReport.getJStatus();
     }
 
     @Override
     public ICandidate getICandidate() {
-        return OCandidate.create(tbl.getTCandidate());
+        return OCandidate.create(tReport.getTCandidate());
     }
 
     @Override
     public List<IPreAdverseAction> getIPreAdverseActions() {
-        return tbl.getTPreAdverseActions().stream().map(OPreAdverseAction::create).collect(Collectors.toList());
+        return tReport.getTPreAdverseActions().stream().map(OPreAdverseAction::create).collect(Collectors.toList());
     }
 
     @Override
     public List<IReportCourtSearch> getIReportCourtSearches() {
-        return tbl.getTReportCourtSearches().stream().map(OReportCourtSearch::create).collect(Collectors.toList());
+        return tReport.getTReportCourtSearches().stream().map(OReportCourtSearch::create).collect(Collectors.toList());
     }
 }

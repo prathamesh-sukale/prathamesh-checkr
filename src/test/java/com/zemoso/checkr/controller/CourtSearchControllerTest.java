@@ -65,6 +65,7 @@ class CourtSearchControllerTest {
 
 		GetAllCourtSearchesResp expectedResponse = new GetAllCourtSearchesResp();
 		expectedResponse.setMCourtSearches(mCourtSearches);
+		expectedResponse.setApiResult(ApiResult.ok());
 
 		when(iCourtSearchService.getAll()).thenReturn(expectedResponse);
 

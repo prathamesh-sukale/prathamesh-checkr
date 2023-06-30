@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class OPreAdverseAction implements IPreAdverseAction {
 
-    private TPreAdverseAction tbl;
+    private TPreAdverseAction tPreAdverseAction;
 
     private OPreAdverseAction(TPreAdverseAction tbl){
-        this.tbl = tbl;
+        this.tPreAdverseAction = tbl;
     }
 
     public static OPreAdverseAction create(TPreAdverseAction tbl){
@@ -22,32 +22,32 @@ public class OPreAdverseAction implements IPreAdverseAction {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tPreAdverseAction.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tPreAdverseAction.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tPreAdverseAction.getJStatus();
     }
 
 
     @Override
     public LocalDateTime getDtAction() {
-        return tbl.getDtAction();
+        return tPreAdverseAction.getDtAction();
     }
 
     @Override
     public int getJDays() {
-        return tbl.getJDays();
+        return tPreAdverseAction.getJDays();
     }
 
     @Override
     public List<IPreAdverseCharge> getIPreAdverseCharges() {
-        return tbl.getTPreAdverseCharges().stream().map(OPreAdverseCharge::create).collect(Collectors.toList());
+        return tPreAdverseAction.getTPreAdverseCharges().stream().map(OPreAdverseCharge::create).collect(Collectors.toList());
     }
 }

@@ -68,6 +68,7 @@ class UserControllerTest {
 
 		GetAllUsersResp expectedResponse = new GetAllUsersResp();
 		expectedResponse.setMUsers(mUsers);
+		expectedResponse.setApiResult(ApiResult.ok());
 
 		when(iUserService.getAll()).thenReturn(expectedResponse);
 

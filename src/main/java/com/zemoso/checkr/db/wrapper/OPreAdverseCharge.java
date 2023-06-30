@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 public class OPreAdverseCharge implements IPreAdverseCharge {
 
-    private TPreAdverseCharge tbl;
+    private TPreAdverseCharge tPreAdverseCharge;
 
     private OPreAdverseCharge(TPreAdverseCharge tbl){
-        this.tbl = tbl;
+        this.tPreAdverseCharge = tbl;
     }
 
     public static OPreAdverseCharge create(TPreAdverseCharge tbl){
@@ -20,27 +20,27 @@ public class OPreAdverseCharge implements IPreAdverseCharge {
 
     @Override
     public int getJId() {
-        return tbl.getJId();
+        return tPreAdverseCharge.getJId();
     }
 
     @Override
     public LocalDateTime getDtCreate() {
-        return tbl.getDtCreate();
+        return tPreAdverseCharge.getDtCreate();
     }
 
     @Override
     public int getJStatus() {
-        return tbl.getJStatus();
+        return tPreAdverseCharge.getJStatus();
     }
 
 
     @Override
     public ICharge getICharge() {
-        return  OCharge.create(tbl.getTCharge());
+        return  OCharge.create(tPreAdverseCharge.getTCharge());
     }
 
     @Override
     public int getJChargeStatus() {
-        return tbl.getJChargeStatus();
+        return tPreAdverseCharge.getJChargeStatus();
     }
 }
