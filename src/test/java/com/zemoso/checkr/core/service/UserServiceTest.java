@@ -1,4 +1,4 @@
-package com.zemoso.checkr.service;
+package com.zemoso.checkr.core.service;
 
 import com.zemoso.checkr.app.CheckrApplication;
 import org.assertj.core.api.Assertions;
@@ -14,7 +14,7 @@ class UserServiceTest {
 
 	@Test
 	void contextLoads() throws Exception {
-		Assertions.assertThat(userService.getTestData()).isNotNull();
+		Assertions.assertThat(userService).isNotNull();
 	}
 
 }

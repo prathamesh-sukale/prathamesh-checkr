@@ -2,14 +2,13 @@ package com.zemoso.checkr.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zemoso.checkr.app.CheckrApplication;
-import com.zemoso.checkr.common.enums.ERole;
 import com.zemoso.checkr.common.util.DateTimeUtils;
-import com.zemoso.checkr.core.iservice.IUserService;
-import com.zemoso.checkr.model.MUser;
+import com.zemoso.checkr.core.iservice.IChargeService;
+import com.zemoso.checkr.model.MCharge;
 import com.zemoso.checkr.model.base.ApiResponse;
 import com.zemoso.checkr.model.base.ApiResult;
-import com.zemoso.checkr.model.request.AddOrEditUserReq;
-import com.zemoso.checkr.model.response.GetAllUsersResp;
+import com.zemoso.checkr.model.request.AddOrEditChargeReq;
+import com.zemoso.checkr.model.response.GetAllChargesResp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {CheckrApplication.class})
 @AutoConfigureMockMvc
-class UserControllerTest {
+class ChargeControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -39,88 +38,82 @@ class UserControllerTest {
 	ObjectMapper objectMapper;
 
 	@MockBean
-	private IUserService iUserService;
+	private IChargeService iChargeService;
 
 	@InjectMocks
-	private UserController userController;
+	private ChargeController ChargeController;
 
-	MUser mUser;
-	List<MUser> mUsers;
+	MCharge mCharge;
+	List<MCharge> mCharges;
 
 	@BeforeEach
 	void setup() throws Exception {
 		MockitoAnnotations.openMocks(this);
 
-		mUser = new MUser();
-		mUser.setJId(1);
-		mUser.setJStatus(1);
-		mUser.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
-		mUser.setJRole(ERole.ADMIN.getJValue());
-		mUser.setSEmail("test@test.com");
-		mUser.setSPassword("123456");
+		mCharge = new MCharge();
+		mCharge.setJId(1);
+		mCharge.setJStatus(1);
+		mCharge.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
+		mCharge.setSName("Charge1");
 
-		mUsers = new ArrayList<>();
-		mUsers.add(mUser);
+		mCharges = new ArrayList<>();
+		mCharges.add(mCharge);
 	}
 
 	@Test
-	void testGetUsers() throws Exception {
+	void testGetCharges() throws Exception {
 
-		GetAllUsersResp expectedResponse = new GetAllUsersResp();
-		expectedResponse.setMUsers(mUsers);
+		GetAllChargesResp expectedResponse = new GetAllChargesResp();
+		expectedResponse.setMCharges(mCharges);
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.getAll()).thenReturn(expectedResponse);
+		when(iChargeService.getAll()).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
-						.contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/charges").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
-	void testGetUsersById() throws Exception {
+	void testGetChargesById() throws Exception {
 
-		GetAllUsersResp expectedResponse = new GetAllUsersResp();
-		expectedResponse.setMUsers(mUsers);
+		GetAllChargesResp expectedResponse = new GetAllChargesResp();
+		expectedResponse.setMCharges(mCharges);
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.get(mUser.getJId())).thenReturn(expectedResponse);
+		when(iChargeService.get(mCharge.getJId())).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}",mUser.getJId())
-						.contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/charges/{id}",mCharge.getJId()).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
-	void testAddUser() throws Exception {
-
-		AddOrEditUserReq request = new AddOrEditUserReq();
-		request.setMUser(mUser);
+	void testAddCharge() throws Exception {
+		AddOrEditChargeReq request = new AddOrEditChargeReq();
+		request.setMCharge(mCharge);
 
 		ApiResponse expectedResponse = new ApiResponse();
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.add(request)).thenReturn(expectedResponse);
+		when(iChargeService.add(request)).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/charges")
 				.content(objectMapper.writeValueAsString(request))
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk());
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
-	void testEditUser() throws Exception {
-		mUser.setSPassword("12345678");
+	void testEditCharge() throws Exception {
+		mCharge.setSName("Charge2");
 
-		AddOrEditUserReq request = new AddOrEditUserReq();
-		request.setMUser(mUser);
+		AddOrEditChargeReq request = new AddOrEditChargeReq();
+		request.setMCharge(mCharge);
 
 		ApiResponse expectedResponse = new ApiResponse();
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.edit(mUser.getJId(), request)).thenReturn(expectedResponse);
+		when(iChargeService.edit(mCharge.getJId(), request)).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/{id}", mUser.getJId())
+		mockMvc.perform(MockMvcRequestBuilders.patch("/api/charges/{id}", mCharge.getJId())
 						.content(objectMapper.writeValueAsString(request))
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
@@ -128,14 +121,14 @@ class UserControllerTest {
 	}
 
 	@Test
-	void testDeleteUser() throws Exception {
+	void testDeleteCharge() throws Exception {
 
 		ApiResponse expectedResponse = new ApiResponse();
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.delete(mUser.getJId())).thenReturn(expectedResponse);
+		when(iChargeService.delete(mCharge.getJId())).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/{id}", mUser.getJId())
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/charges/{id}", mCharge.getJId())
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 
