@@ -34,12 +34,6 @@ public class ReportRepository extends ApplicationRepository {
     private ICandidateRepository iCandidateRepository;
 
     @Autowired
-    private IPreAdverseActionRepository iPreAdverseActionRepository;
-
-    @Autowired
-    private IPreAdverseChargeRepository preAdverseChargeRepository;
-
-    @Autowired
     private IChargeRepository iChargeRepository;
 
     @Autowired
