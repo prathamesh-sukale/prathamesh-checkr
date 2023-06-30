@@ -2,14 +2,13 @@ package com.zemoso.checkr.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zemoso.checkr.app.CheckrApplication;
-import com.zemoso.checkr.common.enums.ERole;
 import com.zemoso.checkr.common.util.DateTimeUtils;
-import com.zemoso.checkr.core.iservice.IUserService;
-import com.zemoso.checkr.model.MUser;
+import com.zemoso.checkr.core.iservice.ICourtSearchService;
+import com.zemoso.checkr.model.MCourtSearch;
 import com.zemoso.checkr.model.base.ApiResponse;
 import com.zemoso.checkr.model.base.ApiResult;
-import com.zemoso.checkr.model.request.AddOrEditUserReq;
-import com.zemoso.checkr.model.response.GetAllUsersResp;
+import com.zemoso.checkr.model.request.AddOrEditCourtSearchReq;
+import com.zemoso.checkr.model.response.GetAllCourtSearchesResp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {CheckrApplication.class})
 @AutoConfigureMockMvc
-class UserControllerTest {
+class CourtSearchControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -39,87 +38,84 @@ class UserControllerTest {
 	ObjectMapper objectMapper;
 
 	@MockBean
-	private IUserService iUserService;
+	private ICourtSearchService iCourtSearchService;
 
 	@InjectMocks
-	private UserController userController;
+	private CourtSearchController CourtSearchController;
 
-	MUser mUser;
-	List<MUser> mUsers;
+	MCourtSearch mCourtSearch;
+	List<MCourtSearch> mCourtSearches;
 
 	@BeforeEach
 	void setup() throws Exception {
 		MockitoAnnotations.openMocks(this);
 
-		mUser = new MUser();
-		mUser.setJId(1);
-		mUser.setJStatus(1);
-		mUser.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
-		mUser.setJRole(ERole.ADMIN.getJValue());
-		mUser.setSEmail("test@test.com");
-		mUser.setSPassword("123456");
+		mCourtSearch = new MCourtSearch();
+		mCourtSearch.setJId(1);
+		mCourtSearch.setJStatus(1);
+		mCourtSearch.setDtCreate(DateTimeUtils.getDtCurrentInUtc());
+		mCourtSearch.setSName("CourtSearch1");
 
-		mUsers = new ArrayList<>();
-		mUsers.add(mUser);
+		mCourtSearches = new ArrayList<>();
+		mCourtSearches.add(mCourtSearch);
 	}
 
 	@Test
-	void testGetUsers() throws Exception {
+	void testGetCourtSearches() throws Exception {
 
-		GetAllUsersResp expectedResponse = new GetAllUsersResp();
-		expectedResponse.setMUsers(mUsers);
+		GetAllCourtSearchesResp expectedResponse = new GetAllCourtSearchesResp();
+		expectedResponse.setMCourtSearches(mCourtSearches);
 
-		when(iUserService.getAll()).thenReturn(expectedResponse);
+		when(iCourtSearchService.getAll()).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/court-searches")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
-	void testGetUsersById() throws Exception {
+	void testGetCourtSearchesById() throws Exception {
 
-		GetAllUsersResp expectedResponse = new GetAllUsersResp();
-		expectedResponse.setMUsers(mUsers);
+		GetAllCourtSearchesResp expectedResponse = new GetAllCourtSearchesResp();
+		expectedResponse.setMCourtSearches(mCourtSearches);
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.get(mUser.getJId())).thenReturn(expectedResponse);
+		when(iCourtSearchService.get(mCourtSearch.getJId())).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}",mUser.getJId())
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/court-searches/{id}",mCourtSearch.getJId())
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
-	void testAddUser() throws Exception {
-
-		AddOrEditUserReq request = new AddOrEditUserReq();
-		request.setMUser(mUser);
+	void testAddCourtSearch() throws Exception {
+		AddOrEditCourtSearchReq request = new AddOrEditCourtSearchReq();
+		request.setMCourtSearch(mCourtSearch);
 
 		ApiResponse expectedResponse = new ApiResponse();
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.add(request)).thenReturn(expectedResponse);
+		when(iCourtSearchService.add(request)).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/court-searches")
 				.content(objectMapper.writeValueAsString(request))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
-	void testEditUser() throws Exception {
-		mUser.setSPassword("12345678");
+	void testEditCourtSearch() throws Exception {
+		mCourtSearch.setSName("CourtSearch2");
 
-		AddOrEditUserReq request = new AddOrEditUserReq();
-		request.setMUser(mUser);
+		AddOrEditCourtSearchReq request = new AddOrEditCourtSearchReq();
+		request.setMCourtSearch(mCourtSearch);
 
 		ApiResponse expectedResponse = new ApiResponse();
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.edit(mUser.getJId(), request)).thenReturn(expectedResponse);
+		when(iCourtSearchService.edit(mCourtSearch.getJId(), request)).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/{id}", mUser.getJId())
+		mockMvc.perform(MockMvcRequestBuilders.patch("/api/court-searches/{id}", mCourtSearch.getJId())
 						.content(objectMapper.writeValueAsString(request))
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
@@ -127,14 +123,14 @@ class UserControllerTest {
 	}
 
 	@Test
-	void testDeleteUser() throws Exception {
+	void testDeleteCourtSearch() throws Exception {
 
 		ApiResponse expectedResponse = new ApiResponse();
 		expectedResponse.setApiResult(ApiResult.ok());
 
-		when(iUserService.delete(mUser.getJId())).thenReturn(expectedResponse);
+		when(iCourtSearchService.delete(mCourtSearch.getJId())).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/{id}", mUser.getJId())
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/court-searches/{id}", mCourtSearch.getJId())
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 
